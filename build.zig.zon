@@ -1,6 +1,6 @@
 .{
     .name = .freetype,
-    .version = "2.13.2",
+    .version = "2.13.3",
     .fingerprint = 0xac2059b675967f0b,
     .minimum_zig_version = "0.14.0",
     .paths = .{
@@ -19,8 +19,8 @@
     },
     .dependencies = .{
         .freetype = .{
-            .url = "https://github.com/freetype/freetype/archive/refs/tags/VER-2-13-2.tar.gz",
-            .hash = "1220b81f6ecfb3fd222f76cf9106fecfa6554ab07ec7fdc4124b9bb063ae2adf969d",
+            .url = "https://github.com/freetype/freetype/archive/refs/tags/VER-2-13-3.tar.gz",
+            .hash = "N-V-__8AAKfbpwAXnUJ6TJEaqZGWgp6F_8OhiLErejRxQ7Y5",
         },
         .libpng = .{
             .url = "git+https://github.com/allyourcodebase/libpng#2ddc2be536ab6f4e8a70789139df26a64fc472a2",
