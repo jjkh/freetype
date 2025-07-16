@@ -8,12 +8,15 @@ pub fn build(b: *std.Build) !void {
     const module = b.addModule("freetype", .{ .root_source_file = b.path("main.zig") });
 
     const upstream = b.dependency("freetype", .{});
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
         .name = "freetype",
-        .target = target,
-        .optimize = optimize,
+        .linkage = .static,
+        .root_module = b.createModule(.{
+            .target = target,
+            .optimize = optimize,
+            .link_libc = true,
+        }),
     });
-    lib.linkLibC();
     lib.addIncludePath(upstream.path("include"));
 
     module.addIncludePath(upstream.path("include"));
@@ -89,9 +92,11 @@ pub fn build(b: *std.Build) !void {
     if (target.query.isNative()) {
         const test_exe = b.addTest(.{
             .name = "test",
-            .root_source_file = b.path("main.zig"),
-            .target = target,
-            .optimize = optimize,
+            .root_module = b.createModule(.{
+                .root_source_file = b.path("main.zig"),
+                .target = target,
+                .optimize = optimize,
+            }),
         });
         test_exe.linkLibrary(lib);
         const tests_run = b.addRunArtifact(test_exe);
