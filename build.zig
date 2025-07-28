@@ -33,10 +33,11 @@ pub fn build(b: *std.Build) !void {
 
         "-DFT_CONFIG_OPTION_SYSTEM_ZLIB=1",
 
-        "-DHAVE_UNISTD_H",
-        "-DHAVE_FCNTL_H",
-
         "-fno-sanitize=undefined",
+    });
+    if (target.result.abi != .msvc) try flags.appendSlice(&.{
+        "-DHAVE_FCNTL_H",
+        "-DHAVE_UNISTD_H",
     });
     if (libpng_enabled) try flags.append("-DFT_CONFIG_OPTION_USE_PNG=1");
 
