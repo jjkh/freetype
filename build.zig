@@ -5,8 +5,6 @@ pub fn build(b: *std.Build) !void {
     const optimize = b.standardOptimizeOption(.{});
     const libpng_enabled = b.option(bool, "enable-libpng", "Build libpng") orelse false;
 
-    const module = b.addModule("freetype", .{ .root_source_file = b.path("main.zig") });
-
     const upstream = b.dependency("freetype", .{});
     const lib = b.addLibrary(.{
         .name = "freetype",
@@ -19,15 +17,13 @@ pub fn build(b: *std.Build) !void {
     });
     lib.addIncludePath(upstream.path("include"));
 
-    module.addIncludePath(upstream.path("include"));
-    module.addIncludePath(b.path(""));
-
     // Dependencies
     const zlib_dep = b.dependency("zlib", .{ .target = target, .optimize = optimize });
     lib.linkLibrary(zlib_dep.artifact("z"));
     if (libpng_enabled) {
-        const libpng_dep = b.dependency("libpng", .{ .target = target, .optimize = optimize });
-        lib.linkLibrary(libpng_dep.artifact("png"));
+        if (b.lazyDependency("libpng", .{ .target = target, .optimize = optimize })) |libpng_dep| {
+            lib.linkLibrary(libpng_dep.artifact("png"));
+        }
     }
 
     var flags = std.ArrayList([]const u8).init(b.allocator);
@@ -80,7 +76,6 @@ pub fn build(b: *std.Build) !void {
         }),
     }
 
-    lib.installHeader(b.path("freetype-zig.h"), "freetype-zig.h");
     lib.installHeadersDirectory(
         upstream.path("include"),
         "",
@@ -88,21 +83,6 @@ pub fn build(b: *std.Build) !void {
     );
 
     b.installArtifact(lib);
-
-    if (target.query.isNative()) {
-        const test_exe = b.addTest(.{
-            .name = "test",
-            .root_module = b.createModule(.{
-                .root_source_file = b.path("main.zig"),
-                .target = target,
-                .optimize = optimize,
-            }),
-        });
-        test_exe.linkLibrary(lib);
-        const tests_run = b.addRunArtifact(test_exe);
-        const test_step = b.step("test", "Run tests");
-        test_step.dependOn(&tests_run.step);
-    }
 }
 
 const srcs: []const []const u8 = &.{

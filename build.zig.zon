@@ -1,21 +1,13 @@
 .{
     .name = .freetype,
     .version = "2.13.3",
-    .fingerprint = 0xac2059b675967f0b,
+    .fingerprint = 0xac2059b66e3ba3cf,
     .minimum_zig_version = "0.14.0",
     .paths = .{
-        "LICENSE",
-        "Library.zig",
         "build.zig",
         "build.zig.zon",
-        "c.zig",
-        "computations.zig",
-        "errors.zig",
-        "face.zig",
-        "freetype-zig.h",
-        "main.zig",
-        "tag.zig",
-        "test.zig",
+        "LICENSE",
+        "README.md",
     },
     .dependencies = .{
         .freetype = .{
@@ -23,12 +15,13 @@
             .hash = "N-V-__8AAKfbpwAXnUJ6TJEaqZGWgp6F_8OhiLErejRxQ7Y5",
         },
         .libpng = .{
-            .url = "git+https://github.com/allyourcodebase/libpng#2ddc2be536ab6f4e8a70789139df26a64fc472a2",
-            .hash = "libpng-1.6.50-oiaFGscqAAAigJQnEJ_Q7MYrdp73mhWYBNqc8-FQ2xwZ",
+            .url = "git+https://github.com/jjkh/libpng#c80060be449db1ba8c64215ec32c8953989e6eed",
+            .hash = "libpng-1.6.50-0jr_TbwqAACAuY4kmMC17lFiAZUJR36bLssRh1dW3xsF",
+            .lazy = true,
         },
         .zlib = .{
-            .url = "git+https://github.com/allyourcodebase/zlib#8a8161babd4b79ea47d5a5976337a96ac4a5666b",
-            .hash = "zlib-1.3.1-ZZQ7lbYMAAAuaZnFj2675ah508w1Oc-EuY1V1cWJka2C",
+            .url = "git+https://github.com/jjkh/zlib#5cf0cc95afd91ea7b4dfa2e546e42c1cbda43485",
+            .hash = "zlib-1.3.1-krld_9MMAABiuRcr9Vw-RR7LbRqi8dw88YwapNRDj-KK",
         },
     },
 }
